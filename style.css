@@ -92,8 +92,11 @@ body{
 	display: none;
 }
 @media only screen and (max-width: 600px){
+	.card{
+	widith: 90%;
+	}
 	.search{
-		width: 90%;
+		width: 100%;
 	}
 	.col{
 		padding: 5px 10px;
