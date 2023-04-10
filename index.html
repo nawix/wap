@@ -11,11 +11,14 @@
 <body>
  <div class="card">
   <div class="search">
-   <input type="text" placeholder="Enter city name" spellcheck="false">
+   <input name="input" type="text" placeholder="" spellcheck="false" required />
    <button><img src="images/search.png"></button>
   </div>
   <div class="error">
     <p>Invalid city name</p>
+   </div>
+   <div class="error1">
+    <p>You must enter city name</p>
    </div>
   <div class="weather">
    <img src="images/rain.png" class="weather-icon">
@@ -49,13 +52,24 @@ const searchBox = document.querySelector(".search input");
 const searchBtn = document.querySelector(".search button");
 const weatherIcon = document.querySelector(".weather-icon");
 
+
 async function chekWeather(city){
  
  const response = await fetch(apiUrl + city + `&appid=${apiKey}`);
  
+ 
  if(response.status == 404){
     document.querySelector(".error").style.display = "block";
 	document.querySelector(".weather").style.display = "none";
+	setTimeout((function(){
+	window.location.reload();
+	}), 1500);
+ }else if(response.status == 400){
+    document.querySelector(".error1").style.display = "block";
+	document.querySelector(".weather").style.display = "none";
+	setTimeout((function(){
+	window.location.reload();
+	}), 1500);
  }else{
    var data = await response.json();
  
@@ -83,21 +97,40 @@ async function chekWeather(city){
  
  document.querySelector(".weather").style.display = "block";
  document.querySelector(".error").style.display = "none";
+ document.querySelector(".error1").style.display = "none";
+ 
  
 }
  }
- 
  
 
 searchBtn.addEventListener("click", ()=>{
     chekWeather(searchBox.value);
 })
 
+</script>
 
-
-
+<script type="text/javascript">
+ var i=0, text;
+ text = "Enter city name"
+ 
+ function typ(){
+  if(i<text.length){
+  document.getElementsByName("input")[0].placeholder += text.charAt(i);
+  i++;
+  setTimeout(typ,100);
+  }
+ }
+typ();
 
 </script>
+
+
+
+
+
+
+
 </body>
 
 </html>
